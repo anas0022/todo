@@ -7,71 +7,34 @@
 </head>
 <body>
 <div class="user-name">
-    @if(Auth::check())
-        <div class="logout">
-            <form action="{{ route('logout') }}">
-                <button class="b2">Logout</button>
-            </form>
-        </div>
-        <div class="edit">
-            <form action="edit">
-                <button class="b2">Edit List</button>
-            </form>
-        </div>
+    <div class="edit" >
+<form action="home">
+            <button class="b2">Back</button>
+        </form></div>
+    @if(session()->has('name'))
         <p>Hello, {{ session('name') }}</p>
-        <img src="bot.png" alt="" srcset="" width="5%" height="60%">
+        <img src="bot.png" alt="" srcset="" width="5%" heigt="5%">
     @endif 
 </div>
+
 <div class="bu">
   
-        <form action="{{ route('home.post') }}" method="post">
+        <form action="{{ route('edit.post') }}" method="post">
             @csrf
             <div class="forms">
             <div class="date">
-                <input type="date" id="date" name="date" >
+                <input type="date" id="date" name="date-edit">
             </div>
             <div class="space"></div>
             <div class="todo">
-                <input type="text" name="todo" id="todo-list"placeholder="What Are you Up To">
+                <input type="text" name="todo-edit" id="todo-edit">
             </div></div>
             <div class="sbutton">
-            <button class="b1" type="submit">Submit</button></div>
+            <button class="b1" type="submit">Edit-Now</button></div>
 
         </form>
       
-    
-</div>
-
-<div class="list">
-    
-   <div class="li" style="width:100%;">
-    <div class="text"style="width:100%;">
-    @if (session('message'))
-        <p>{{ session('message') }}</p>
-    @endif
-
-    @if (isset($todos) && $todos->isNotEmpty())
-    <ul style=" height:20vw; overflowY:scroll;  justyfy-content:center;">
-        @foreach ($todos as $todo)
-            <div class="ite">
-                <p>Date: {{ $todo->date }} - {{ $todo->todo_list }}</p>
-                <form action="{{ route('todo.delete', ['id' => $todo->id]) }}" method="POST" style=" display:flex;
-    justify-content:center;
-    align-items:center; width:20%;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" style="width:80%;">Delete</button>
-                </form>
-            </div>
-        @endforeach
-    </ul>
-</div>
-@else
-    <p>No todos found.</p>
-@endif
-</div>
-</div>
-<style>
+        <style>
     .edit{
         width:80%;
          height:60%;
@@ -80,11 +43,12 @@
     align-items:center;
     }
     .edit button{
-        background-color:orange;
+        background-color:red;
         width:10%;
         height:50%;
         border-radius:.2vw;
     border:none;
+    color:white;
     }
   *{
     margin:0;
@@ -110,9 +74,6 @@ height:100%;
 
 
 
-}
-ul{
-    width:60%;
 }
 .forms{
     width:100%;
@@ -191,14 +152,30 @@ ul{
 .li{
     width:60%;
     height:50%;
-
+    border:1px solid white;
     display:flex;
     justify-content:center;
     align-items:center;
     font-size:1.5vw;
 }
-
-
+.li .button{
+    width:20%;
+    height:100%;
+    display:flex;
+    justify-content:end;
+    align-items:center;
+}
+.li .button button{
+    width:80%;
+    height:60%;
+    border:none;
+    border-radius:.2vw;
+    cursor: pointer;
+    font-size:1.5vw;
+    font-weight:bolder;
+    background-color:red;
+    color:white;
+}
 .text{
     width:60%;
     height:80%;
@@ -208,107 +185,8 @@ ul{
     font-size:1.8vw;
 
 }
-ul .button{
-    width:20%;
-   
-    height:100%;
-}
-ul .button button{
-    width:20%;
-   background-color:red;
-    height:100%;
-}
-.ite{
-    display:flex; 
-    border:1px solid white; 
-    width:100%; 
-    height:4vw;
-margin-top:2vw;
-     display:flex;
-    justify-content:center;
-    align-items:center;
-    border-radius:.4vw;
-     
-}
-.ite p{
-    width:70%;
-    height:100%;
-    float:left;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-     font-size:1.8vw;
-}
-.ite button{
-    width:20%;
-    height:80%;
-    float:right;
-    color:white;
-    background-color:red;
-    font-size:1.5vw;
-    border:none;
-    border-radius:.2vw;
-    cursor: pointer;
-}
-button{
-    cursor: pointer;
-}
-.logout{
-    width:10%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-.logout form{
-    width:80%;
-    height:80%;
-    display:flex;
-    justify-content:start;
-    align-items:start;
-    
-}
-.logout form button{
-    width:50%;
-    height: 30%;
-    background-color:red;
-border:none;
-border-radius:.2vw;
-color:white;
-}
-.user-name p{
-font-size:2vw;
-width:15%
-  }
 @media(max-width:800px)
-
-
 {
-    .logout{
-        width:30%; 
-    }
-    .logout form button{
-        width:60%;
-        font-size:2vw;
-        color:white;
-    }
-    ul{
-        width:80%
-    }
-    .ite{
-    width:100%;
-    height:8vw;
-    border-radius:.8vw;
-}
-.ite p{
-    font-size:2.8vw;
-}
-.ite button{
-font-size:2.5vw;
-
-}
-
-
     .user-name{
     width:100%;
     height:16vw;
@@ -319,7 +197,7 @@ font-size:2.5vw;
   }
   .user-name p{
 font-size:3vw;
-width:30%
+width:20%
   }
   .user-name img{
     width:10%;
@@ -372,5 +250,6 @@ font-size:2.8vw;
 }
 }
 </style>
+</div>
 </body>
 </html>
